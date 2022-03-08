@@ -14,10 +14,10 @@ After installing our terminal emulator, we are connecting to the server using th
 
 In order to check this information we run the following command
 
-    ```
-    cat /etc/os-release
+```
+cat /etc/os-release
+```
 
-    ```
 This will show us the information that we are looking for:
 
  ![Image#1](/src/img/IMG_001.png)  
