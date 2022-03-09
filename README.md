@@ -138,4 +138,38 @@ After changing the main password, we continue by creating a new user for the dat
 createuser --interactive --pwprompt
 ```
 
-We create the user by entering the username and the password twice adn also we give that user "superuser role".
+We create the user by entering the username and the password twice, also we give that user "superuser" role.
+
+After we add the new user, we must change a few settings in order to be able to connect to the postegres. We need to change thins in two files which are located in: 
+
+```
+ cd /etc/postgresql/13/main
+```
+
+In this directory we are going to work with **pg_hba.conf** and **postgresql.conf**
+
+```
+ sudo nano pg_hba.conf
+```
+
+Here we must add the following line as shown in the picture.
+
+```
+host    all             all             10.0.0.0/0              md5
+```
+![Image#5](/src/img/IMG_005.png)  
+
+After that we continue with the change in the second file:
+
+```
+ sudo nano postgresql.conf
+```
+In this file we need to change the listen_addresses option, like follows:
+
+![Image#6](/src/img/IMG_006.png)  -> ![Image#7](/src/img/IMG_007.png)  
+
+```
+listen_addresses = '*'                  # what IP address(es) to listen on;
+```
+
+After we are done with these steps we can try to connect to our postgres, using pgAdmin,DBeaver or etc. 
