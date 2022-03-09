@@ -176,6 +176,7 @@ listen_addresses = '*'                  # what IP address(es) to listen on;
 After we are done with these steps we can try to connect to our postgres, using pgAdmin,DBeaver or etc. 
 
 ## 6. Create database and install postgis
+* The screensnaps are taken from DBeaver app, which is used for the current guide.
 
 ### 6.1 Create database
 
@@ -202,3 +203,7 @@ Needed extensions:
 - postgis
 - btree_gist
 - hstore
+
+![Image#9](/src/img/IMG_009.png)  
+![Image#10](/src/img/IMG_010.png)  
+![Image#11](/src/img/IMG_011.png)  
