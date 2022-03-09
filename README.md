@@ -78,3 +78,9 @@ location /iD/ {
 }
 
 ```
+
+After we have saved those changes, we must restart the nginx for them to work:
+
+```
+sudo systemctl restart nginx
+```
