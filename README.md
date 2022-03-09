@@ -37,7 +37,7 @@ After installation is complete we need to make sure that nginx is running. We ca
 
 ![Image#2](/src/img/IMG_002.png)  
 
-###### 3.1 NGINX Settings
+### 3.1 NGINX Settings
 
 In order for nginx to work the way we want it, we need to change a few of its settings. First we need to locate its default file, which should be in the following directory:
 
