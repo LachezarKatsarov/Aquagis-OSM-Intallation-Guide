@@ -166,10 +166,39 @@ After that we continue with the change in the second file:
 ```
 In this file we need to change the listen_addresses option, like follows:
 
-![Image#6](/src/img/IMG_006.png)  -> ![Image#7](/src/img/IMG_007.png)  
+![Image#6](/src/img/IMG_006.png) 
+![Image#7](/src/img/IMG_007.png)  
 
 ```
 listen_addresses = '*'                  # what IP address(es) to listen on;
 ```
 
 After we are done with these steps we can try to connect to our postgres, using pgAdmin,DBeaver or etc. 
+
+## 6. Create database and install postgis
+
+### 6.1 Create database
+
+First we connect to the postgres using our ip and the username: **gis** , that we created in the previous steps. After connection is established, we create a new database as follows:
+
+![Image#8](/src/img/IMG_008.png)  
+
+### 6.2 Install postgis 
+
+After our database is created we continue with by installing postgis following these instructions or the ones for the current OS of the server: [PostGis Install](https://computingforgeeks.com/how-to-install-postgis-on-ubuntu-linux/)
+
+With PostgreSQL 13:
+
+```
+sudo apt update
+sudo apt install postgis postgresql-13-postgis-3
+```
+
+### 6.3 Add extensions to database 
+
+When postgis installation is complete we need to add some extensions to our database.
+
+Needed extensions: 
+- postgis
+- btree_gist
+- hstore
