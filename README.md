@@ -84,3 +84,58 @@ After we have saved those changes, we must restart the nginx for them to work:
 ```
 sudo systemctl restart nginx
 ```
+
+## 4. Clone Aquagis-Backend repository on the server
+
+The next step in our installation is to get the backend up and running on the server. 
+
+The repository for the backend is accesible on the following [link](https://github.com/aqua-gis/aquagis-backend)
+
+We need to clone it in this directory on our server: 
+
+```
+cd /srv/apps/
+```
+```
+sudo git clone https://github.com/aqua-gis/aquagis-backend.git
+```
+
+## 5. Install PostgreSQL on the server
+
+In order to continue we need to install PostgreSQL on our server. For our application we are installing PostgreSQL v13. According to the server OS and version, we could check how to install it online or follow the following commands, if the system is the same. [LINK](https://computingforgeeks.com/how-to-install-postgresql-13-on-ubuntu/)
+
+### 5.1. Add PostgreSQL 13 repository to Ubuntu 20.04
+```
+sudo apt -y install vim bash-completion wget
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+```
+### 5.2 Install PostgreSQL 13 on Ubuntu 20.04
+
+```
+sudo apt update
+
+sudo apt install postgresql-13 postgresql-client-13
+```
+
+After the installation is complete we need to change the password of the dafault user that was automatically created. In order to do that we need to switch our account to the postgres one, using this command:
+
+```
+sudo su - postgres
+```
+
+In order to change the password, we need to generate a random strong one online and use it as the new for the postgres account:
+
+```
+psql -c "alter user postgres with password 'nA62Qpy6wGM:@Lr%'"
+```
+
+After changing the main password, we continue by creating a new user for the database. For this project we are using **gis** as username and password.
+
+```
+createuser --interactive --pwprompt
+```
+
+We create the user by entering the username and the password twice adn also we give that user "superuser role".
