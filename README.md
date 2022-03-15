@@ -21,3 +21,82 @@ cat /etc/os-release
 Това ще ни покаже търсената от нас информация: 
 
  ![Image#1](/src/img/IMG_001.png)  
+
+## 3. Инсталиране на NGINX
+
+Installing NGINX is really simple and requires only running the following commands:
+
+Инсталирането на NGINX е много бърз и лесен процес, необходимо е само да изпълним следните команди в терминала:
+
+```
+sudo apt update
+```
+```
+sudo apt install nginx
+```
+
+След като иснталацията завърши успешно е необходимо да проверим, че NGINX работи. Има два варианта да направим това:
+
+- Вариант 1: Отваряме браузъра и изписваме IP адреса на сървъра, като при работещ NGINX това би трябвало да зареди следната страница: 
+
+![Image#2](/src/img/IMG_002.png)  
+
+### 3.1 Настройване на NGINX
+
+За да може NGINX да работи по желания от нас начин е необходимо да променим част от неговите настройки. Първо намираме default файла, който трябва да се намира в следната директория: 
+
+```
+cd /etc/nginx/sites-available
+```
+
+След като намерим файла го отваряме с едитора:
+
+```
+sudo nano default
+```
+
+В този файл са необходими няколко промени. При първоначалното отваряне на файла в едитора, той ще изглежда по следния начин: 
+
+![Image#3](/src/img/IMG_003.png)  
+
+След нашите промени, той трябва да бъде така: 
+
+![Image#4](/src/img/IMG_004.png) 
+
+От тук може да копирате промените: 
+
+```
+root /srv/www/tiles;
+```
+```
+location / {
+      # First attempt to serve request as file, then
+      # as directory, then fall back to displaying a 404.
+      try_files $uri $uri/ index.html;
+}
+```
+```
+location /iD/ {
+      alias /srv/www/iD/;
+}
+```
+След като запазим файла е необходимо да рестартираме NGINX, за да се отразят промените.
+
+```
+sudo systemctl restart nginx
+```
+
+## 4. Клониране на проекта Aquagis-Backend на сървъра
+
+Следващата стъпка в нашата инсталация е да качим проекта Aquagis-Backend на сървъра. 
+
+Репозиторито за проекта, може да бъде достъпено на следния [адрес](https://github.com/aqua-gis/aquagis-backend) 
+
+Този проект трябва да бъде клониран в следната директория: 
+
+```
+cd /srv/apps/
+```
+```
+sudo git clone https://github.com/aqua-gis/aquagis-backend.git
+```
