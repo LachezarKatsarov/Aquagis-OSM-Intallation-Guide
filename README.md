@@ -184,4 +184,127 @@ host    all             all             10.0.0.0/0              md5
 listen_addresses = '*'                  # what IP address(es) to listen on;
 ```
 
-След като направим и запазим промените, можем да се опитаме да все вържем към базата използвайки pgAdmim, Dbeaver или др. 
+След като направим и запазим промените, можем да се опитаме да се вържем към базата използвайки pgAdmim, Dbeaver или др. 
+
+## 6.Създаване на базата и инсталиране на postgis
+* Екранните снимки са взети от DBeaver, програмата която използваме за връзка с баата по време на ръководството.
+
+### 6.1 Създаване на базата данни
+
+След като успешно се вържем към създаденото в предните стъпки Postgres е необходимо да създадем нова база данни, както следва: 
+
+![Image#8](/src/img/IMG_008.png)  
+
+### 6.2 Конфигуриране на database.yml 
+
+След като създадем новата база данни е необходимо да променим настройките в database.yml да сочат към нея:
+
+```
+sudo nano config/database.yml
+```
+
+![Image#12](/src/img/IMG_012.png) -> ![Image#13](/src/img/IMG_013.png)  
+
+### 6.3 Инсталиране на Postgis
+
+След като базатас е създадена и настроена е необходимо да инсталираме Postgis, както следва: 
+
+За PostgreSQL 13:
+
+```
+sudo apt update
+sudo apt install postgis postgresql-13-postgis-3
+```
+
+### 6.4 Добавяне на разширения в базата 
+
+След инсталацията на Postgis трябва да добавим няколко разширения към създадената база данни.
+
+Списък на разширения: 
+- postgis
+- btree_gist
+- hstore
+
+![Image#9](/src/img/IMG_009.png)  
+![Image#10](/src/img/IMG_010.png)  
+![Image#11](/src/img/IMG_011.png)  
+
+### 6.5 Execute functions.sql
+
+```
+cd /srv/apps/aquagis-backend/db/functions
+psql -U gis -d aquagis_test_dev -f functions.sql
+```
+
+## 7. Инсталиране на Vagrant
+
+!!! За следващата част от инсталирането е възможно да се използва готов пакет, чрез vagrant който автоматично инсталира необходимите неща. Тук има възможност Vagrant да не работи на дадения ни сървър и да трябва тези елементи да бъдат инсталирани ръчно. (Описани по-долу в точка **7v2.**)
+
+За да инсталираме vagrant е необходимо да изпълним следните команди:
+
+```
+sudo apt install vagrant
+```
+
+```
+sudo apt install qemu qemu-kvm libvirt-clients libvirt-daemon-system virtinst bridge-utils
+
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtds
+```
+```
+sudo vagrant up
+```
+
+Ако инсталацията завърши успешно и успеем да стартираме vagrant, можем да изпълним тази команда, за да започне автоматичното инсталиране: 
+
+vagrant provision
+
+Ако тази операция завърши успешно, би трябвало базата ни да е заредена с всички необходими таблици и можем да продължим с останалите компоненти в точка **8**.
+
+## 7v2. Инсталиране на компоненти без Vagrant
+
+В случай, че инсталацията на vagrant и работата с него е невъзможна е необходимо да изпълним следните команди в терминала, за да инсталираме неонбходимите ни елемти: 
+
+```
+sudo apt-get install -y ruby2.7 libruby2.7 ruby2.7-dev \
+                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs yarnpkg \
+                     apache2 apache2-dev build-essential git-core firefox-geckodriver \
+                     libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev libpq-dev postgresql postgresql-contrib
+```
+```
+sudo gem2.7 install rake
+```
+```
+sudo gem2.7 install --version "~> 2.1.4" bundler
+```
+```
+sudo bundle install --retry=10 --jobs=2
+```
+```
+bundle exec rake yarn:install
+```
+
+Следващата стъпка е да променим отново настройките в в database.yml, тъй като в точка **6.2** го направихме, така че да работи използвайки vagrant. 
+
+```
+sudo nano config/database.yml
+```
+
+![Image#14](/src/img/IMG_014.png) -> ![Image#15](/src/img/IMG_015.png)  
+
+След тази промяна можем да стартираме мигрирането и създаването на таблиците в базата данни: 
+
+```
+bundle exec rake db:migrate
+```
+
+Уверяваме се че базата ни е заредена с таблции и след това можем да стартираме приложението на OpenStreetMap, изпълнявайки следната команда: 
+
+```
+nohup bundle exec rails server -b 0.0.0.0 &
+```
+
+След като стартираме OpenStreetmap, влизаме през браъзъра в приложение достъпвайки го на адрес IP на сървъра, последвано от порт 3000 на който го настроихме по-рано: 
+
+![Image#16](/src/img/IMG_016.png)  
