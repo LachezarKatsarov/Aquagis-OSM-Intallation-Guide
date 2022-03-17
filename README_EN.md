@@ -187,7 +187,7 @@ First we connect to the postgres using our ip and the username: **gis** , that w
 
 ## 6.2 Configure database.yml file
 
-Once the database is created we need to change the settings in the database.yml to point at it; 
+Once the database is created we need to change the settings in the database.yml to point at it: 
 
 ![Image#12](/src/img/IMG_012.png) -> ![Image#13](/src/img/IMG_013.png)  
 
@@ -215,7 +215,7 @@ Needed extensions:
 ![Image#10](/src/img/IMG_010.png)  
 ![Image#11](/src/img/IMG_011.png)  
 
-### 6.5 Execute funxtionsq.sql
+### 6.5 Execute functions.sql
 
 ```
 cd /srv/apps/aquagis-backend/db/functions
