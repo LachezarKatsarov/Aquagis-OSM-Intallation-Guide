@@ -20,7 +20,7 @@ cat /etc/os-release
 ```
 Това ще ни покаже търсената от нас информация: 
 
- ![Image#1](/src/img/IMG_001.png)  
+ ![Image#1](https://github.com/LachezarKatsarov/Aquagis-OSM-Intallation-Guide/blob/main/src/img/IMG_001.png)  
 
 ## 3. Инсталиране на NGINX
 
